@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic");
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "AdminLTE";
+@import "skin-blue";
+
+.top-header{
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background-color: #eee !important;
+  border: solid 1px #ccc;
+}
+
+.container-messages{
+  padding: 10px 15px;
+}
