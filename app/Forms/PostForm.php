@@ -14,7 +14,7 @@ class PostForm extends Form
             'label' => 'Título',
             'rules' => 'required|max:200'
         ])
-        ->add('folder', 'file', [
+        ->add('cover', 'file', [
             'label' => 'Capa',
             'rules' => 'nullable|mimes:jpeg,bmp,png'
         ])
@@ -33,7 +33,7 @@ class PostForm extends Form
             'label' => 'Tags',
             'class' => Tag::class,
             'rules' => 'nullable|array',
-            'attr' => ['class' => 'select2 form-control'],
+            'attr' => ['class' => 'j-select2 form-control'],
             'multiple' => true
         ]);
     }

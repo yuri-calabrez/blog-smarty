@@ -18,8 +18,8 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('content');
-            $table->string('folder')->nullable();
-            $table->boolean('status');
+            $table->string('cover')->nullable();
+            $table->boolean('status')->default(1);
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->integer('author_id')->unsigned();

@@ -20,3 +20,11 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(function () {
+            $('.j-select2').select2();
+        });
+    </script>
+@endpush
