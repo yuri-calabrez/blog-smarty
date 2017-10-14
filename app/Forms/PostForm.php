@@ -35,6 +35,17 @@ class PostForm extends Form
             'rules' => 'nullable|array',
             'attr' => ['class' => 'j-select2 form-control'],
             'multiple' => true
+        ])
+        ->add('status', 'choice', [
+            'choices' => ['0' => 'Sim', '1' => 'Não'],
+            'choice_options' => [
+                'wrapper' => ['class' => 'choice-wrapper'],
+                'label_attr' => ['class' => 'label-class'],
+            ],
+            'rules' => 'required',
+            'label' => 'Salvar como rascunho?',
+            'expanded' => true,
+            'multiple' => false
         ]);
     }
 }
