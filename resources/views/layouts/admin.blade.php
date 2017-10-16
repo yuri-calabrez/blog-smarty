@@ -81,7 +81,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="../widgets.html">
+                    <a href="{{route('admin.users.index')}}">
                         <i class="fa fa-users"></i> <span>Usuários</span>
                     </a>
                 </li>

@@ -8,6 +8,7 @@ try {
     require('bootstrap-sass');
     require('./adminlte');
     require('select2');
+    window.swal = require('sweetalert2');
 } catch (e) {}
 
 window.axios = require('axios');
