@@ -23,4 +23,5 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
        Route::resource('posts', 'PostsController');
        Route::resource('tags', 'TagsController', ['except' => 'show']);
        Route::resource('users', 'UsersController', ['except' => 'show']);
+       Route::resource('roles', 'RolesController', ['except' => 'show']);
 });

@@ -86,6 +86,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{route('admin.roles.index')}}">
+                        <i class="fa fa-list-ol"></i> <span>Papeis de usuários</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{route('logout')}}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                         <i class="fa fa-sign-out"></i> <span>Sair</span>

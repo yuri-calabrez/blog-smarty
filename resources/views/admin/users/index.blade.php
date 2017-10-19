@@ -30,7 +30,7 @@
                 <div class="box-body box-profile">
                     <img src="/images/no_avatar.jpg" alt="User" class="profile-user-img img-responsive img-circle">
                     <h3 class="profile-username text-center">{{$user->name}}</h3>
-                    <p class="text-muted text-center">Super admin</p>
+                    <p class="text-muted text-center">{{$user->roles->implode('name', ', ')}}</p>
                     <p class="text-muted text-center"><i class="fa fa-envelope"></i> {{$user->email}}</p>
                     <p class="text-muted text-center"><i class="fa fa-calendar-o"></i>
                         Desde de {{$user->created_at->format('d/m/Y')}}

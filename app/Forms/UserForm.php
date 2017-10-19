@@ -2,6 +2,7 @@
 
 namespace App\Forms;
 
+use App\Models\Role;
 use Kris\LaravelFormBuilder\Form;
 
 class UserForm extends Form
@@ -22,6 +23,15 @@ class UserForm extends Form
         ->add('password', 'password', [
             'label' => 'Senha',
             'rules' => "{$required}max:60"
+        ])
+        ->add('roles', 'entity', [
+            'label' => 'Papel de usuário',
+            'class' => Role::class,
+            'multiple' => true,
+            'rules' => [
+                'required',
+                'rules.*' => 'exists:roles,id'
+            ]
         ]);
     }
 }

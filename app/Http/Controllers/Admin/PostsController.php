@@ -14,7 +14,7 @@ class PostsController extends Controller
 {
     public function index()
     {
-        $posts = Post::paginate(12);
+        $posts = Post::where('author_id', \Auth::user()->id)->paginate(12);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -50,6 +50,7 @@ class PostsController extends Controller
 
     public function edit(Post $post)
     {
+        $this->authorize('edit', $post);
         $form = \FormBuilder::create(PostForm::class, [
             'method' => 'PUT',
             'url' => route('admin.posts.update', ['post' => $post->id]),
@@ -60,6 +61,7 @@ class PostsController extends Controller
 
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
         /** @var Form $form */
         $form = \FormBuilder::create(PostForm::class);
         if (!$form->isValid()) {

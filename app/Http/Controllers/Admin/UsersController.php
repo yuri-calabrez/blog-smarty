@@ -50,7 +50,8 @@ class UsersController extends Controller
         }
         $data = $form->getFieldValues();
         $data['password'] = bcrypt($data['password']);
-        User::create($data);
+        $user = User::create($data);
+        $user->roles()->sync($data['roles']);
         $request->session()->flash('success', 'Usuário cadastrado com sucesso!');
         return redirect()->route('admin.users.index');
     }
@@ -94,6 +95,7 @@ class UsersController extends Controller
             unset($data['password']);
         }
         $user->update($data);
+        $user->roles()->sync($data['roles']);
         $request->session()->flash('success', 'Usuário editado com sucesso!');
         return redirect()->route('admin.users.index');
     }
@@ -115,6 +117,7 @@ class UsersController extends Controller
            $post->tags()->detach();
            $post->delete();
         }
+        $user->roles()->detach();
         $user->delete();
         \Session::flash('success', 'Usuário removido com sucesso!');
         return redirect()->route('admin.users.index');
