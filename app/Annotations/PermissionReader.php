@@ -54,7 +54,7 @@ class PermissionReader
                 $actionAnnotation = $this->reader->getMethodAnnotation($rcMethod, Action::class);
                 if ($actionAnnotation) {
                     $permission['resource_name'] = $actionAnnotation->name;
-                    $permission['resource_descripion'] = $actionAnnotation->description;
+                    $permission['resource_description'] = $actionAnnotation->description;
                     $permissions[] = (new \ArrayIterator($permission))->getArrayCopy();
                 }
             }
