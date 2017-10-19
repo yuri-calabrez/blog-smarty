@@ -6,12 +6,16 @@ use App\Forms\UserForm;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Annotations\Mapping\Controller as ControllerAnnotation;
+use App\Annotations\Mapping\Action as ActionAnnotation;
 
+/**
+ * @ControllerAnnotation(name="users-admin", description="Administração")
+ */
 class UsersController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * @ActionAnnotation(name="list", description="Listagem de usuários")
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
