@@ -10,7 +10,7 @@ class UserForm extends Form
     public function buildForm()
     {
         $id = $this->getData('id');
-        $required = $this->getData('required');
+        $showPassword = $this->getData('showPassword');
 
         $this->add('name', 'text', [
             'label' => 'Nome',
@@ -19,10 +19,6 @@ class UserForm extends Form
         ->add('email', 'email', [
             'label' => 'E-mail',
             'rules' => "required|email|unique:users,email,{$id}"
-        ])
-        ->add('password', 'password', [
-            'label' => 'Senha',
-            'rules' => "{$required}max:60"
         ])
         ->add('roles', 'entity', [
             'label' => 'Papel de usuário',
@@ -33,5 +29,12 @@ class UserForm extends Form
                 'rules.*' => 'exists:roles,id'
             ]
         ]);
+
+        if($showPassword){
+            $this->add('password', 'password', [
+                'label' => 'Senha',
+                'rules' => "required|max:60"
+            ]);
+        }
     }
 }

@@ -39,6 +39,8 @@
                 <div class="box-footer text-center">
                     <a href="{{route('admin.users.edit', ['user' => $user->id])}}"
                        title="Gerenciar Admin" class="btn btn-primary"><i class="fa fa-user"></i> Gerenciar</a>
+                    <a href="{{route('admin.users.password.edit', ['user' => $user->id])}}"
+                       title="Gerenciar Admin" class="btn btn-warning"><i class="fa fa-key"></i> Alterar senha</a>
                 </div>
             </div>
         </div>

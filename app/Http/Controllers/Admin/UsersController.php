@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Forms\UserForm;
+use App\Forms\UserPasswordForm;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -34,7 +35,7 @@ class UsersController extends Controller
         $form = \FormBuilder::create(UserForm::class, [
             'method' => 'POST',
             'url' => route('admin.users.store'),
-            'data' => ['required' => 'required|']
+            'data' => ['showPassword' => true]
         ]);
 
         return view('admin.users.create', compact('form'));
@@ -48,7 +49,9 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $form = \FormBuilder::create(UserForm::class);
+        $form = \FormBuilder::create(UserForm::class, [
+            'data' => ['showPassword' => true]
+        ]);
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
@@ -58,6 +61,29 @@ class UsersController extends Controller
         $user->roles()->sync($data['roles']);
         $request->session()->flash('success', 'Usuário cadastrado com sucesso!');
         return redirect()->route('admin.users.index');
+    }
+
+    public function changePassword(Request $request, User $user)
+    {
+        $form = \FormBuilder::create(UserPasswordForm::class, [
+            'method' => 'PUT',
+            'url' => route('admin.users.password.update', ['user' => $user->id])
+        ]);
+
+        return view('admin.users.password', compact('form'));
+    }
+
+    public function updatePassword(Request $request, User $user)
+    {
+        $form = \FormBuilder::create(UserPasswordForm::class);
+        if (!$form->isValid()) {
+            return redirect()->back()->withErrors($form->getErrors())->withInput();
+        }
+        $data = $form->getFieldValues();
+        $user->update(['password' => bcrypt($data['password'])]);
+        $request->session()->flash('success', 'Senha alterada com sucesso!');
+        return redirect()->route('admin.users.index');
+
     }
 
     /**
@@ -71,7 +97,7 @@ class UsersController extends Controller
         $form = \FormBuilder::create(UserForm::class, [
            'method' => 'PUT',
            'url' => route('admin.users.update', ['user' => $user->id]),
-           'model' => $user->toArray()
+           'model' => $user
         ]);
 
         return view('admin.users.edit', compact('form'));
@@ -93,11 +119,6 @@ class UsersController extends Controller
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
         $data = $form->getFieldValues();
-        if (!empty($data['password'])){
-            $data['password'] = bcrypt($data['password']);
-        } else {
-            unset($data['password']);
-        }
         $user->update($data);
         $user->roles()->sync($data['roles']);
         $request->session()->flash('success', 'Usuário editado com sucesso!');
