@@ -7,16 +7,15 @@ use App\Forms\UserPasswordForm;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Annotations\Mapping\Controller as ControllerAnnotation;
-use App\Annotations\Mapping\Action as ActionAnnotation;
+use App\Annotations\Mapping as Permissions;
 
 /**
- * @ControllerAnnotation(name="users-admin", description="Administração")
+ * @Permissions\Controller(name="users-admin", description="Administração de usuários")
  */
 class UsersController extends Controller
 {
     /**
-     * @ActionAnnotation(name="list", description="Listagem de usuários")
+     * @Permissions\Action(name="list", description="Listagem de usuários")
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -27,7 +26,7 @@ class UsersController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * @Permissions\Action(name="store", description="Cadastro de usuários")
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -43,7 +42,7 @@ class UsersController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     * @Permissions\Action(name="store", description="Cadastro de usuários")
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -63,6 +62,12 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index');
     }
 
+    /**
+     * @Permissions\Action(name="update-password", description="Atualização de senha")
+     * @param Request $request
+     * @param User $user
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function changePassword(Request $request, User $user)
     {
         $form = \FormBuilder::create(UserPasswordForm::class, [
@@ -73,6 +78,12 @@ class UsersController extends Controller
         return view('admin.users.password', compact('form'));
     }
 
+    /**
+     * @Permissions\Action(name="update-password", description="Atualização de senha")
+     * @param Request $request
+     * @param User $user
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function updatePassword(Request $request, User $user)
     {
         $form = \FormBuilder::create(UserPasswordForm::class);
@@ -88,7 +99,7 @@ class UsersController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * @Permissions\Action(name="update", description="Editar usuário")
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
@@ -105,7 +116,7 @@ class UsersController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     * @Permissions\Action(name="update", description="Editar usuário")
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -127,7 +138,7 @@ class UsersController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * @Permissions\Action(name="destroy", description="Remover usuário")
      * @param  int $id
      * @return \Illuminate\Http\Response
      */

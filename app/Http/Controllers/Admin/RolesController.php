@@ -3,18 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Forms\RoleForm;
+use App\Http\Requests\PermissionRequest;
 use App\Http\Requests\RoleRequest;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\Facades\FormBuilder;
+use App\Annotations\Mapping as Permissions;
 
+/**
+* @Permissions\Controller(name="role-admin", description="Administração de papéis de usuário")
+ */
 class RolesController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @Permissions\Action(name="list", description="Listar papéis de usuários")
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -25,7 +31,7 @@ class RolesController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * @Permissions\Action(name="store", description="Cadastrar papéis de usuários")
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -40,7 +46,7 @@ class RolesController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     * @Permissions\Action(name="store", description="Cadastrar papéis de usuários")
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
@@ -58,7 +64,7 @@ class RolesController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * @Permissions\Action(name="update", description="Editar papéis de usuários")
      * @param Role $role
      * @return \Illuminate\Http\Response
      * @internal param int $id
@@ -75,7 +81,7 @@ class RolesController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     * @Permissions\Action(name="update", description="Editar papéis de usuários")
      * @param RoleRequest $request
      * @param Role $role
      * @return \Illuminate\Http\Response
@@ -89,7 +95,7 @@ class RolesController extends Controller
         if (!$form->isValid()) {
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
-        $data = $form->getFieldValues();
+        $data = $request->except('permissions');
         $role->update($data);
         $request->session()->flash('success', 'Papel de usuário editado com sucesso!');
         return redirect()->route('admin.roles.index');
@@ -97,7 +103,7 @@ class RolesController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * @Permissions\Action(name="destroy", description="Remover papéis de usuários")
      * @param Role $role
      * @return \Illuminate\Http\Response
      * @internal param int $id
@@ -115,6 +121,26 @@ class RolesController extends Controller
         } catch (QueryException $e) {
             \Session::flash('error', 'Papel de usuário não pode ser exlcuido. Ele esta relacionado com outros registros.');
         }
+        return redirect()->route('admin.roles.index');
+    }
+
+    /**
+     * @param Role $role
+     * @param Permission $permission
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function editPermission(Role $role, Permission $permission)
+    {
+        $permissions = $permission->whereNotNull('resource_name')->get();
+        $permissionsGroup = $permission->groupBy('name', 'description')->get(['name', 'description']);
+        return view('admin.roles.permissions', compact('role', 'permissions', 'permissionsGroup'));
+    }
+
+    public function updatePermission(PermissionRequest $request, Role $role)
+    {
+        $data = $request->get('permissions', []);
+        $role->permissions()->sync($data);
+        $request->session()->flash('success', 'Permissões atribuidas com sucesso!');
         return redirect()->route('admin.roles.index');
     }
 }

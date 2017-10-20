@@ -22,10 +22,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
        Route::resource('categories', 'CategoriesController');
        Route::resource('posts', 'PostsController');
        Route::resource('tags', 'TagsController', ['except' => 'show']);
+
        Route::group(['prefix' => 'users/{user}', 'as' => 'users.password.'], function(){
           Route::get('/password', 'UsersController@changePassword')->name('edit');
           Route::put('/password', 'UsersController@updatePassword')->name('update');
        });
        Route::resource('users', 'UsersController', ['except' => 'show']);
+
+       Route::group(['prefix' => 'roles/{role}', 'as' => 'roles.permission.'], function(){
+           Route::get('/permissions', 'RolesController@editPermission')->name('edit');
+           Route::put('/permissions', 'RolesController@updatePermission')->name('update');
+       });
        Route::resource('roles', 'RolesController', ['except' => 'show']);
 });

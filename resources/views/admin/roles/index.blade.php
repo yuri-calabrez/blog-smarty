@@ -25,7 +25,10 @@
                             <tr>
                                 <td>{{$role->name}}</td>
                                 <td>
-                                    <a href="#" class="btn btn-warning" title="Permissões"><i class="fa fa-address-card-o"></i></a>
+                                    <a href="{{route('admin.roles.permission.edit', ['role' => $role->id])}}"
+                                       class="btn btn-warning" title="Permissões">
+                                        <i class="fa fa-address-card-o"></i>
+                                    </a>
                                 </td>
                                 <td>
                                     <a href="{{route('admin.roles.edit', ['role' => $role->id])}}"
