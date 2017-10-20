@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Permission;
 use App\Models\Post;
 use App\Policies\PostPolicy;
 use Illuminate\Support\Facades\Gate;
@@ -32,5 +33,14 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
         });
+
+        if(!app()->runningInConsole() || app()->runningUnitTests()) {
+            $permission = Permission::whereNotNull('resource_name')->get();
+            foreach ($permission as $p) {
+                \Gate::define("{$p->name}/{$p->resource_name}", function ($user) use ($p) {
+                    return $user->hasRole($p->roles);
+                });
+            }
+        }
     }
 }

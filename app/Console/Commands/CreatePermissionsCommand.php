@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Annotations\PermissionReader;
+use App\Facade\PermissionReader;
 use App\Models\Permission;
 use Illuminate\Console\Command;
 
@@ -25,21 +25,16 @@ class CreatePermissionsCommand extends Command
      * @var Permission
      */
     private $permission;
-    /**
-     * @var PermissionReader
-     */
-    private $permissionReader;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(Permission $permission, PermissionReader $permissionReader)
+    public function __construct(Permission $permission)
     {
         parent::__construct();
         $this->permission = $permission;
-        $this->permissionReader = $permissionReader;
     }
 
     /**
@@ -49,7 +44,7 @@ class CreatePermissionsCommand extends Command
      */
     public function handle()
     {
-        $permissions = $this->permissionReader->getPermissions();
+        $permissions = PermissionReader::getPermissions();
         foreach ($permissions as $permission) {
             if(!$this->existsPermissions($permission)) {
                 $this->permission->create($permission);

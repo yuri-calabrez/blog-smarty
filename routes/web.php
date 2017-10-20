@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'auth.resource']], function(){
        Route::get('', 'DashboardController@index');
        Route::resource('categories', 'CategoriesController');
        Route::resource('posts', 'PostsController');
