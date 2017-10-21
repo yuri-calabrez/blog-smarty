@@ -7,10 +7,18 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\Form;
+use App\Annotations\Mapping as Permissions;
 
+/**
+ * @Permissions\Controller(name="categories-admin", description="Administração de categorias")
+ */
 class CategoriesController extends Controller
 {
 
+    /**
+     * @Permissions\Action(name="list", description="Listagem de categorias")
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $categories = Category::orderBy('id', 'desc')->paginate(15);
@@ -19,7 +27,7 @@ class CategoriesController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * @Permissions\Action(name="store", description="Cadastrar categorias")
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -33,7 +41,7 @@ class CategoriesController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     * @Permissions\Action(name="store", description="Cadastrar categorias")
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -55,7 +63,7 @@ class CategoriesController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * @Permissions\Action(name="update", description="Editar categorias")
      * @param Category $category
      * @return \Illuminate\Http\Response
      * @internal param int $id
@@ -72,7 +80,7 @@ class CategoriesController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     * @Permissions\Action(name="update", description="Editar categorias")
      * @param  \Illuminate\Http\Request $request
      * @param Category $category
      * @return \Illuminate\Http\Response
@@ -95,7 +103,7 @@ class CategoriesController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * @Permissions\Action(name="destroy", description="Remover categorias")
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

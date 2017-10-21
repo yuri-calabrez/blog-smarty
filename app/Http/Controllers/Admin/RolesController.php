@@ -14,7 +14,7 @@ use Kris\LaravelFormBuilder\Facades\FormBuilder;
 use App\Annotations\Mapping as Permissions;
 
 /**
-* @Permissions\Controller(name="role-admin", description="Administração de papéis de usuário")
+* @Permissions\Controller(name="roles-admin", description="Administração de papéis de usuário")
  */
 class RolesController extends Controller
 {

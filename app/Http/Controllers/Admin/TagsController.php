@@ -6,12 +6,16 @@ use App\Forms\TagForm;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Tag;
+use App\Annotations\Mapping as Permissions;
 
+/**
+ * @Permissions\Controller(name="tags-admin", description="Administração de tags")
+ */
 class TagsController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     * @Permissions\Action(name="list", description="Listagem de tags")
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -22,7 +26,7 @@ class TagsController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     * @Permissions\Action(name="store", description="Cadastrar tags")
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -37,7 +41,7 @@ class TagsController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     * @Permissions\Action(name="store", description="Cadastrar tags")
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -56,7 +60,7 @@ class TagsController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * @Permissions\Action(name="update", description="Atualizar tags")
      * @param Tag $tag
      * @return \Illuminate\Http\Response
      * @internal param int $id
@@ -73,7 +77,7 @@ class TagsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     * @Permissions\Action(name="update", description="Atualizar tags")
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -95,7 +99,7 @@ class TagsController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * @Permissions\Action(name="destroy", description="Remover tags")
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

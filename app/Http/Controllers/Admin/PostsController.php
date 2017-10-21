@@ -9,15 +9,27 @@ use App\Http\Controllers\Controller;
 use Kris\LaravelFormBuilder\Form;
 use Image;
 use Mews\Purifier\Facades\Purifier;
+use App\Annotations\Mapping as Permissions;
 
+/**
+ * @Permissions\Controller(name="posts-admin", description="Administração de posts")
+ */
 class PostsController extends Controller
 {
+    /**
+     * @Permissions\Action(name="list", description="Listagem de posts")
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $posts = Post::where('author_id', \Auth::user()->id)->paginate(12);
         return view('admin.posts.index', compact('posts'));
     }
 
+    /**
+     * @Permissions\Action(name="store", description="Cadastrar posts")
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         $form = \FormBuilder::create(PostForm::class, [
@@ -27,6 +39,11 @@ class PostsController extends Controller
         return view('admin.posts.create', compact('form'));
     }
 
+    /**
+     * @Permissions\Action(name="store", description="Cadastrar posts")
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         /** @var Form $form */
@@ -48,6 +65,11 @@ class PostsController extends Controller
         return redirect()->route('admin.posts.index');
     }
 
+    /**
+     * @Permissions\Action(name="update", description="Editar posts")
+     * @param Post $post
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit(Post $post)
     {
         $this->authorize('edit', $post);
@@ -59,6 +81,12 @@ class PostsController extends Controller
         return view('admin.posts.edit', compact('form'));
     }
 
+    /**
+     * @Permissions\Action(name="update", description="Editar posts")
+     * @param Request $request
+     * @param Post $post
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Post $post)
     {
         $this->authorize('update', $post);
@@ -82,6 +110,11 @@ class PostsController extends Controller
         return redirect()->route('admin.posts.index');
     }
 
+    /**
+     * @Permissions\Action(name="destroy", description="Remover posts")
+     * @param Post $post
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Post $post)
     {
         if (file_exists(public_path('uploads/posts/' . $post->cover)) &&
