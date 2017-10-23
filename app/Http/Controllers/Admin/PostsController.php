@@ -53,7 +53,7 @@ class PostsController extends Controller
         }
 
         $data = $form->getFieldValues();
-        $data['content'] = Purifier::clean($data['content']);
+        $data['content'] = Purifier::clean($data['content'], 'youtube');
         $data['author_id'] = \Auth::user()->id;
         $post = Post::create($data);
         $post->tags()->sync($data['tags']);
@@ -96,7 +96,7 @@ class PostsController extends Controller
             return redirect()->back()->withErrors($form->getErrors())->withInput();
         }
         $data = $form->getFieldValues();
-        $data['content'] = Purifier::clean($data['content']);
+        $data['content'] = Purifier::clean($data['content'], 'youtube');
         if(isset($data['author_id'])){
             unset($data['author_id']);
         }

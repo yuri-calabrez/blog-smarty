@@ -15,6 +15,7 @@ class Post extends Model
         'content',
         'folder',
         'status',
+        'views',
         'category_id',
         'author_id',
     ];
@@ -32,6 +33,11 @@ class Post extends Model
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id');
+    }
+
+    public function getPostDateAttribute()
+    {
+        return $this->created_at->formatLocalized('%d %B, %Y');
     }
 
 

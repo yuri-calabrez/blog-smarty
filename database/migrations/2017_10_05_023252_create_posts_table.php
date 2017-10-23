@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->text('content');
             $table->string('cover')->nullable();
             $table->boolean('status')->default(1);
+            $table->integer('views')->default(0);
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
             $table->integer('author_id')->unsigned();

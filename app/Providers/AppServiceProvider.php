@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Annotations\PermissionReader;
 use App\Http\Controllers\Admin\UsersController;
+use Carbon\Carbon;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         /** @var PermissionReader $reader */
         $reader = app(PermissionReader::class);
         //dd($reader->getPermissions());
+        setlocale(LC_TIME, 'portuguese');
     }
 
     /**
